@@ -1,4 +1,6 @@
 import math
+from PIL import Image
+import numpy as np
 
 
 rlc_data = [
@@ -41,6 +43,8 @@ def decode_rlc(rlc):
 
 # Step 2
 def inverse_zigzag(vector):
+
+    # The zigzag pattern for the 8x8 block, where each tuple represents the (row, column) index in the matrix
     zigzag_index = [
         (0,0),
         (0,1),(1,0),
@@ -120,6 +124,23 @@ def scale_to_0_255(matrix):
     return matrix
 
 
+def print_matrix(matrix):
+    for row in matrix:
+        print([round(x) for x in row])
+
+
+def construct_image(matrix):
+    # 2. Convert pixels into a NumPy array
+    array = np.array(matrix, dtype=np.uint8)
+
+    # 3. Create a PIL image from the array
+    new_image = Image.fromarray(array)
+
+    # 4. Save as a JPEG
+    # new_image.save('output_image.jpg')
+
+    # Optional: View the image immediately
+    new_image.show()
 
 
 decoded = decode_rlc(rlc_data)
@@ -131,8 +152,7 @@ print()
 matrix = inverse_zigzag(decoded)
 
 print("Zigzag:")
-for row in matrix:
-      print(row)
+print_matrix(matrix)
 print()
 
 multiply_luminance(matrix)
@@ -141,13 +161,13 @@ idct_result = twod_inv_disc(matrix)
 
 # Checkpoint
 print("Checkpoint:")
-for row in idct_result:
-    print([round(x) for x in row])
+print_matrix(idct_result)
 print()
 
 # Final
 print("Final:")
 final_result = scale_to_0_255(idct_result)
 
-for row in final_result:
-    print([round(x) for x in row])
+print_matrix(final_result)
+
+construct_image(final_result)
