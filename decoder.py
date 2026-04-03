@@ -63,8 +63,10 @@ def inverse_zigzag(vector):
         (7,7)
     ]
 
+    # Create an empty 8x8 matrix
     matrix = [[0 for _ in range(8)] for _ in range(8)]
 
+    # Fill the matix according to the zigzag pattern
     for idx, (i, j) in enumerate(zigzag_index):
         matrix[i][j] = vector[idx]
 
@@ -83,6 +85,7 @@ def multiply_luminance(matrix):
                        [49, 64, 78, 87, 103, 121, 120, 101],
                        [72, 92, 95, 98, 112, 100, 103, 99]]
     
+    # Multiply each element of the matrix by the corresponding element in the luminance table
     for i in range(8):
         for j in range(8):
             matrix[i][j] *= luminance_table[i][j]
@@ -91,8 +94,10 @@ def multiply_luminance(matrix):
 # Step 4
 def twod_inv_disc(matrix):
 
+    # Create an empty 8x8 matrix to store the results
     result = [[0 for _ in range(8)] for _ in range(8)]
 
+    # Perform 2D Inverse Discrete Cosine Transform
     for i in range(8):
         for j in range(8):
 
@@ -117,6 +122,8 @@ def twod_inv_disc(matrix):
 
 # Step 5
 def scale_to_0_255(matrix):
+
+    # Go through each element and add 128
     for i in range(8):
         for j in range(8):
             matrix[i][j] += 128
@@ -145,13 +152,12 @@ def construct_image(matrix):
 
 decoded = decode_rlc(rlc_data)
 
-print("Decoded:")
-print(decoded)
+print("Decoded:\n", decoded)
 print()
 
 matrix = inverse_zigzag(decoded)
 
-print("Zigzag:")
+print("Zigzag:\n")
 print_matrix(matrix)
 print()
 
