@@ -157,7 +157,7 @@ print()
 
 matrix = inverse_zigzag(decoded)
 
-print("Zigzag:\n")
+print("Zigzag:")
 print_matrix(matrix)
 print()
 
